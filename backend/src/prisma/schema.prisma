@@ -1,0 +1,37 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+  threadId  Int
+  userId    Int
+  Thread    Thread   @relation(fields: [threadId], references: [id])
+  Sender    User     @relation(fields: [userId], references: [id])
+}
+
+model Thread {
+  id             Int       @id @default(autoincrement())
+  participantIds Int[]     @unique
+  messages       Message[]
+  Participants   User[]    @relation("ThreadToUser")
+}
+
+model User {
+  id             Int       @id @default(autoincrement())
+  email          String    @unique
+  name           String?
+  hashedPassword String
+  salt           String
+  createdAt      DateTime  @default(now())
+  Message        Message[]
+  threads        Thread[]  @relation("ThreadToUser")
+}
