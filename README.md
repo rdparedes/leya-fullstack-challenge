@@ -1,5 +1,7 @@
 # Wazzup - A basic live messaging app
 
+My solution to the code challenge for fullstack engineers at [Leya](https://www.leya.law/)
+
 ## Local development
 
 ### Prerequisites
